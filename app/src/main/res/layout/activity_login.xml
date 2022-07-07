@@ -97,6 +97,4 @@
                             android:backgroundTint="@color/white" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 </layout>

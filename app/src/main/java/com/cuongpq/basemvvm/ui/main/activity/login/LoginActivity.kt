@@ -17,7 +17,6 @@ class LoginActivity :BaseMVVMActivity<LoginCallBack,LoginViewModel>(),LoginCallB
 
     override fun initComponents() {
         getBindingData().loginViewModel = mModel
-        OpenFragmentUtils.openUserFragment(supportFragmentManager)
     }
 
     override fun getBindingData() = mBinding as ActivityLoginBinding
