@@ -31,10 +31,11 @@ class SigninFragment : BaseMvvmFragment<SignInCallBack,SigninViewModel>(),SignIn
         getBindingData().edtEmail.setText(sharedPreferences!!.getString("email",""))
         getBindingData().edtPassword.setText(sharedPreferences!!.getString("password",""))
         getBindingData().checkPass.isChecked = sharedPreferences!!.getBoolean("checked",false)
+        startSignIn()
         mModel.uiEventLiveData.observe(this){
             when(it){
                 BaseViewModel.FINISH_ACTIVITY -> finishActivity()
-                SigninViewModel.START_SIGNIN -> startSignIn()
+//                SigninViewModel.START_SIGNIN -> startSignIn()
                 SigninViewModel.VISIBLE_PASSWORD -> onClickVisible()
             }
         }
@@ -55,8 +56,13 @@ class SigninFragment : BaseMvvmFragment<SignInCallBack,SigninViewModel>(),SignIn
 
     private fun startSignIn() {
         onSaveUser()
-        val intent = Intent(activity,MainActivity::class.java)
-        activity?.startActivity(intent)
+        getBindingData().btnLogin.setOnClickListener {
+            val email = getBindingData().edtEmail.text.toString().trim()
+            val passwrod = getBindingData().edtPassword.text.toString().trim()
+            mModel.onSignin(email,passwrod)
+        }
+//        val intent = Intent(activity,MainActivity::class.java)
+//        activity?.startActivity(intent)
 
     }
 

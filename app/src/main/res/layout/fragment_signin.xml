@@ -91,7 +91,6 @@
             android:text="Login"
             android:textAllCaps="false"
             android:id="@+id/btnLogin"
-            android:onClick="@{()-> signinViewModel.onSignin()}"
             android:textStyle="bold"
             android:padding="10dp"
             android:textColor="@color/white"

@@ -1,5 +1,6 @@
 package com.cuongpq.basemvvm.ui.main.fragment.signup
 
+import android.content.Context
 import android.widget.Toast
 import com.cuongpq.basemvvm.R
 import com.cuongpq.basemvvm.databinding.FragmentSignupBinding
@@ -12,6 +13,7 @@ class SignupFragment : BaseMvvmFragment<SignupCallBack,SignupViewModel>(),Signup
         showMessage(error.message!!)
     }
 
+
     override fun getLayoutMain() = R.layout.fragment_signup
 
     override fun setEvents() {
@@ -20,23 +22,26 @@ class SignupFragment : BaseMvvmFragment<SignupCallBack,SignupViewModel>(),Signup
 
     override fun initComponents() {
         getBindingData().signupViewModel = mModel
-        mModel.uiEventLiveData.observe(this){
-            when(it){
-                BaseViewModel.FINISH_ACTIVITY -> finishActivity()
-                SignupViewModel.START_SIGNUP -> startSignup()
-            }
-        }
+        startSignup()
+//        mModel.uiEventLiveData.observe(this){
+//            when(it){
+//                BaseViewModel.FINISH_ACTIVITY -> finishActivity()
+//                SignupViewModel.START_SIGNUP -> startSignup()
+//            }
+//        }
 
     }
 
     private fun startSignup() {
-       getBindingData().btnSignup.setOnClickListener {
-           val email = getBindingData().edtEmail.text.toString().trim()
-           val passwrod = getBindingData().edtPassword.text.toString().trim()
-           if (email.isNotEmpty() && passwrod.isNotEmpty()){
-               Toast.makeText(activity,"Register onsuccessfull",Toast.LENGTH_SHORT).show()
-               mModel.onSignup(email,passwrod)
-           }
+        getBindingData().btnSignup.setOnClickListener {
+
+            val email = getBindingData().edtEmail.text.toString().trim()
+            val passwrod = getBindingData().edtPassword.text.toString().trim()
+            val user = getBindingData().edtUser.text.toString().trim()
+            val confirmPassword = getBindingData().edtConfirmPassword.text.toString().trim()
+            val phone = getBindingData().edtPhone.text.toString().trim()
+            mModel.onSignup(email, user, passwrod, confirmPassword, phone)
+
        }
     }
 
