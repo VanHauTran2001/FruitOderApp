@@ -119,6 +119,7 @@
             android:background="@drawable/custom_btn_slat"
             android:text="Signup"
             android:textAllCaps="false"
+            android:onClick="@{()->signupViewModel.performSignIn()}"
             android:id="@+id/btnSignup"
             android:textStyle="bold"
             android:onClick="@{()->signupViewModel.performSignUp()}"

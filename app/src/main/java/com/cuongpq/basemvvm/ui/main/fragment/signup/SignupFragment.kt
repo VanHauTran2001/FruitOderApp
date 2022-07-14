@@ -11,7 +11,6 @@ import com.cuongpq.basemvvm.ui.base.fragment.BaseMvvmFragment
 import com.cuongpq.basemvvm.ui.base.viewmodel.BaseViewModel
 import com.cuongpq.basemvvm.ui.main.MainActivity
 import com.cuongpq.basemvvm.ui.main.activity.login.LoginActivity
-import com.cuongpq.basemvvm.ui.main.fragment.signin.SigninViewModel
 
 class SignupFragment : BaseMvvmFragment<SignupCallBack,SignupViewModel>(),SignupCallBack{
     private var progressDialog : ProgressDialog?=null
@@ -29,7 +28,6 @@ class SignupFragment : BaseMvvmFragment<SignupCallBack,SignupViewModel>(),Signup
     override fun initComponents() {
         getBindingData().signupViewModel = mModel
         progressDialog = ProgressDialog(context)
-//        startSignup()
         mModel.uiEventLiveData.observe(this){
             when(it){
                 BaseViewModel.FINISH_ACTIVITY -> finishActivity()
