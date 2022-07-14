@@ -10,6 +10,8 @@ import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
+import android.view.View
+import android.widget.Toast
 import androidx.activity.result.contract.ActivityResultContracts.StartActivityForResult
 import androidx.appcompat.app.AlertDialog
 import com.bumptech.glide.Glide
@@ -18,6 +20,9 @@ import com.cuongpq.basemvvm.databinding.FragmentProfileBinding
 import com.cuongpq.basemvvm.ui.base.fragment.BaseMvvmFragment
 import com.cuongpq.basemvvm.ui.base.viewmodel.BaseViewModel
 import com.cuongpq.basemvvm.ui.main.activity.login.LoginActivity
+import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.UserProfileChangeRequest
 import java.io.IOException
 
 class ProfileFragment : BaseMvvmFragment<ProfileCallBack, ProfileViewModel>(), ProfileCallBack {
@@ -35,15 +40,46 @@ class ProfileFragment : BaseMvvmFragment<ProfileCallBack, ProfileViewModel>(), P
 
     override fun initComponents() {
         getBindingData().profileViewModel = mModel
+        setUserInformation()
         mModel.uiEventLiveData.observe(this){
             when(it){
                 BaseViewModel.FINISH_ACTIVITY -> finishActivity()
                 ProfileViewModel.CLICK_LOGOUT -> startActivityLogout()
                 ProfileViewModel.CLICK_IMAGE -> onClickAvata()
+                ProfileViewModel.CLICK_UPDATE -> onClickUpdateAvata()
             }
         }
     }
 
+    @SuppressLint("UseRequireInsteadOfGet")
+    private fun onClickUpdateAvata() {
+        val firebaseUser = FirebaseAuth.getInstance().currentUser ?: return
+        val profileChangeRequest = UserProfileChangeRequest.Builder()
+            .setPhotoUri(mUri)
+            .build()
+        firebaseUser.updateProfile(profileChangeRequest)
+            .addOnCompleteListener { task: Task<Void?> ->
+                if (task.isSuccessful) {
+                    getBindingData().imgAvata.visibility = View.GONE
+                    Toast.makeText(context, "Upload avata onsuccessfull", Toast.LENGTH_SHORT)
+                        .show()
+                    Glide.with(context!!).load(firebaseUser.photoUrl)
+                        .error(R.drawable.avatar)
+                        .into(getBindingData().imgAvata)
+                }
+            }
+    }
+    @SuppressLint("UseRequireInsteadOfGet")
+    fun setUserInformation() {
+        val user = FirebaseAuth.getInstance().currentUser
+        if (user == null) {
+            return
+        } else {
+            val photoUrl = user.photoUrl
+            getBindingData().txtEmailAccount.text = user.email
+            Glide.with(context!!).load(photoUrl).error(R.drawable.avatar).into(getBindingData().imgAvata)
+        }
+    }
     private fun onClickAvata() {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.M) {
             openGallery()
@@ -63,6 +99,7 @@ class ProfileFragment : BaseMvvmFragment<ProfileCallBack, ProfileViewModel>(), P
             .setTitle("Confirm Dialog")
             .setMessage("Are you sure you want to exit ?")
             .setPositiveButton("Yes") { _: DialogInterface?, _: Int ->
+                FirebaseAuth.getInstance().signOut()
                 val intent = Intent(activity,LoginActivity::class.java)
                 activity?.startActivity(intent)
             }

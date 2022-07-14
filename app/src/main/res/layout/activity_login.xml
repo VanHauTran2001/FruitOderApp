@@ -24,7 +24,7 @@
                     app:layout_constraintTop_toTopOf="parent"/>
                 <ImageView
                     android:layout_width="match_parent"
-                    android:layout_height="170dp"
+                    android:layout_height="160dp"
                     android:src="@drawable/logo_fruit"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"

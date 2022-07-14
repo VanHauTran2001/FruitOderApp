@@ -104,6 +104,13 @@
                 android:maxLines="1"
                 android:padding="10dp"
                 android:textColor="@color/black" />
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/tvError"
+                android:textColor="@color/blue"
+                android:layout_below="@+id/edtPhone"
+                android:gravity="center"
+                android:layout_height="18dp"/>
         </RelativeLayout>
         <Button
             android:layout_width="match_parent"
@@ -114,6 +121,7 @@
             android:textAllCaps="false"
             android:id="@+id/btnSignup"
             android:textStyle="bold"
+            android:onClick="@{()->signupViewModel.performSignUp()}"
             android:padding="10dp"
             android:textColor="@color/white"
             android:textSize="23dp" />

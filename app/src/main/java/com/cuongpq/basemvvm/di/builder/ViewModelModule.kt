@@ -5,9 +5,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.cuongpq.basemvvm.di.model.ViewModelFactory
 import com.cuongpq.basemvvm.di.model.ViewModelKey
 import com.cuongpq.basemvvm.ui.main.MainViewModel
+import com.cuongpq.basemvvm.ui.main.activity.cart.CartViewModel
+import com.cuongpq.basemvvm.ui.main.activity.details.DetailsViewModel
 import com.cuongpq.basemvvm.ui.main.activity.login.LoginViewModel
 import com.cuongpq.basemvvm.ui.main.activity.slash.SlashViewModel
-import com.cuongpq.basemvvm.ui.main.fragment.favorite.FavoriteViewModel
+import com.cuongpq.basemvvm.ui.main.fragment.search.SearchViewModel
 import com.cuongpq.basemvvm.ui.main.fragment.home.HomeViewModel
 import com.cuongpq.basemvvm.ui.main.fragment.notification.NotificationViewModel
 import com.cuongpq.basemvvm.ui.main.fragment.profile.ProfileViewModel
@@ -42,6 +44,16 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
+    @ViewModelKey(DetailsViewModel::class)
+    abstract fun bindsDetailsViewModel(detailsViewModel: DetailsViewModel):ViewModel
+
+    @Binds
+    @IntoMap
+    @ViewModelKey(CartViewModel::class)
+    abstract fun bindsCartViewModel(cartViewModel: CartViewModel):ViewModel
+
+    @Binds
+    @IntoMap
     @ViewModelKey(UserViewModel::class)
     abstract fun bindsUserViewModel(userViewModel: UserViewModel): ViewModel
 
@@ -62,8 +74,8 @@ abstract class ViewModelModule {
 
     @Binds
     @IntoMap
-    @ViewModelKey(FavoriteViewModel::class)
-    abstract fun bindsFavoriteViewModel(favoriteViewModel: FavoriteViewModel) : ViewModel
+    @ViewModelKey(SearchViewModel::class)
+    abstract fun bindsSearchViewModel(searchViewModel: SearchViewModel) : ViewModel
 
     @Binds
     @IntoMap

@@ -51,7 +51,7 @@ class UserFragment : BaseMvvmFragment<UserCallBack, UserViewModel>(),UserCallBac
     }
 
     override fun getData(position: Int): User {
-        return mModel.obUsers.value!!.get(position)
+        return mModel.obUsers.value!![position]
     }
 
     override fun error(id: String, error: Throwable) {

@@ -15,4 +15,10 @@ class MainViewModel @Inject constructor(
    init {
 
    }
+    companion object{
+        const val CLICK_IMG_CART = 1001
+    }
+    fun onClickToCart(){
+        uiEventLiveData.value = CLICK_IMG_CART
+    }
 }

@@ -1,9 +1,10 @@
 package com.cuongpq.basemvvm.ui.main.fragment.signin
 
+import android.annotation.SuppressLint
+import android.app.ProgressDialog
 import android.content.Context
 import android.content.Intent
 import android.content.SharedPreferences
-import android.text.InputType
 import android.text.method.HideReturnsTransformationMethod
 import android.text.method.PasswordTransformationMethod
 import com.cuongpq.basemvvm.R
@@ -15,10 +16,10 @@ import com.cuongpq.basemvvm.ui.main.MainActivity
 class SigninFragment : BaseMvvmFragment<SignInCallBack,SigninViewModel>(),SignInCallBack {
     private var sharedPreferences : SharedPreferences?=null
     private var passwordNotVisible = 1
+    private var progressDialog : ProgressDialog?=null
     override fun error(id: String, error: Throwable) {
         showMessage(error.message!!)
     }
-
     override fun getLayoutMain() = R.layout.fragment_signin
 
     override fun setEvents() {
@@ -27,18 +28,33 @@ class SigninFragment : BaseMvvmFragment<SignInCallBack,SigninViewModel>(),SignIn
 
     override fun initComponents() {
         getBindingData().signinViewModel = mModel
+        progressDialog = ProgressDialog(context)
         sharedPreferences = activity?.getSharedPreferences("login",Context.MODE_PRIVATE)
         getBindingData().edtEmail.setText(sharedPreferences!!.getString("email",""))
         getBindingData().edtPassword.setText(sharedPreferences!!.getString("password",""))
         getBindingData().checkPass.isChecked = sharedPreferences!!.getBoolean("checked",false)
-        startSignIn()
         mModel.uiEventLiveData.observe(this){
             when(it){
                 BaseViewModel.FINISH_ACTIVITY -> finishActivity()
-//                SigninViewModel.START_SIGNIN -> startSignIn()
+                SigninViewModel.NAV_GET_DATA_FROM_UI_AND_SIGNIN->startSignIn()
+                SigninViewModel.NAV_SIGNIN_SUCCESS -> onSigninSuccess()
+                SigninViewModel.NAV_SIGNIN_ERROR -> onSigninError()
                 SigninViewModel.VISIBLE_PASSWORD -> onClickVisible()
+                SigninViewModel.DIALOG_SHOW -> onShowDialog()
+                SigninViewModel.DIALOG_DIS-> onDisDialog()
             }
         }
+    }
+
+    private fun onDisDialog() {
+        progressDialog!!.dismiss()
+    }
+
+    private fun onShowDialog() {
+        progressDialog!!.setTitle("Signin")
+        progressDialog!!.setMessage("Please wait.......")
+        progressDialog!!.setCanceledOnTouchOutside(false)
+        progressDialog!!.show()
     }
 
     private fun onClickVisible() {
@@ -54,18 +70,32 @@ class SigninFragment : BaseMvvmFragment<SignInCallBack,SigninViewModel>(),SignIn
         getBindingData().edtPassword.setSelection(getBindingData().edtPassword.length())
     }
 
+    @SuppressLint("ResourceAsColor")
     private fun startSignIn() {
         onSaveUser()
-        getBindingData().btnLogin.setOnClickListener {
             val email = getBindingData().edtEmail.text.toString().trim()
             val passwrod = getBindingData().edtPassword.text.toString().trim()
-            mModel.onSignin(email,passwrod)
-        }
-//        val intent = Intent(activity,MainActivity::class.java)
-//        activity?.startActivity(intent)
+            if (email.isEmpty()||passwrod.isEmpty()){
+                getBindingData().tvErrorSignin.text = "Field can not null"
+                getBindingData().tvErrorSignin.setTextColor(android.R.color.holo_red_dark)
+                return
+            }
+            getBindingData().tvErrorSignin.text = ""
+            mModel.email = email
+            mModel.password = passwrod
+            mModel.onSignin()
+
+    }
+    private fun onSigninSuccess(){
+        showMessage("Signin Success")
+        val intent = Intent(context, MainActivity::class.java)
+        context?.startActivity(intent)
 
     }
 
+    private fun onSigninError(){
+        showMessage("Signin Error")
+    }
     private fun onSaveUser() {
         if(getBindingData().checkPass.isChecked){
             val editor : SharedPreferences.Editor = sharedPreferences!!.edit()

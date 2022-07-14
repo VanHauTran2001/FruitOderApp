@@ -53,6 +53,13 @@
                 android:hint="Password"
                 android:layout_below="@id/edtEmail"
                 android:padding="10dp" />
+            <TextView
+                android:layout_width="match_parent"
+                android:id="@+id/tvErrorSignin"
+                android:textColor="@color/blue"
+                android:layout_below="@+id/edtPassword"
+                android:gravity="center"
+                android:layout_height="18dp"/>
 
             <ImageView
                 android:id="@+id/imgCheckPass"
@@ -68,7 +75,6 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
-
             <CheckBox
                 android:id="@+id/check_Pass"
                 android:layout_width="wrap_content"
@@ -93,6 +99,7 @@
             android:id="@+id/btnLogin"
             android:textStyle="bold"
             android:padding="10dp"
+            android:onClick="@{()->signinViewModel.performSignIn()}"
             android:textColor="@color/white"
             android:textSize="23dp" />
     </LinearLayout>

@@ -9,30 +9,6 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="56dp"
-            android:id="@+id/ln_actionbar"
-            android:background="#FF5E00"
-            android:orientation="horizontal"
-            >
-            <androidx.appcompat.widget.AppCompatImageView
-                android:layout_width="56dp"
-                android:layout_height="56dp"
-                android:id="@+id/btn_back"
-                android:layout_gravity="center"
-                android:scaleType="centerInside"
-                android:src="@drawable/ic_back"
-                android:tint="@color/white"
-                android:padding="10dp"/>
-            <androidx.appcompat.widget.AppCompatTextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Notifications"
-                android:textStyle="bold"
-                android:textColor="@color/white"
-                android:textSize="20dp"
-                android:layout_gravity="center_vertical"/>
-        </LinearLayout>
+
     </RelativeLayout>
 </layout>

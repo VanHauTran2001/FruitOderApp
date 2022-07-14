@@ -1,6 +1,6 @@
 package com.cuongpq.basemvvm.di.builder
 
-import com.cuongpq.basemvvm.ui.main.fragment.favorite.FavoriteFragment
+import com.cuongpq.basemvvm.ui.main.fragment.search.SearchFragment
 import com.cuongpq.basemvvm.ui.main.fragment.home.HomeFragment
 import com.cuongpq.basemvvm.ui.main.fragment.notification.NotificationFragment
 import com.cuongpq.basemvvm.ui.main.fragment.profile.ProfileFragment
@@ -26,7 +26,7 @@ abstract class FragmentBuilderModule {
     @ContributesAndroidInjector
     abstract fun contributeHomeFragment() : HomeFragment
     @ContributesAndroidInjector
-    abstract fun contributeFavoriteFragment() : FavoriteFragment
+    abstract fun contributeSearchFragment() : SearchFragment
     @ContributesAndroidInjector
     abstract fun contributeNotificationFragment() : NotificationFragment
     @ContributesAndroidInjector

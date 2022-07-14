@@ -14,6 +14,10 @@ class ProfileViewModel @Inject constructor(
     companion object{
         const val CLICK_LOGOUT = 1007
         const val CLICK_IMAGE = 1008
+        const val CLICK_UPDATE = 1009
+    }
+    fun onUpdate(){
+        uiEventLiveData.value = CLICK_UPDATE
     }
     fun onLogout(){
         uiEventLiveData.value= CLICK_LOGOUT
